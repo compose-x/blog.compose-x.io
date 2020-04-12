@@ -1,0 +1,9 @@
+*~
+*.pyc
+*__pycache*
+.doit.db
+output/*
+cache/*
+venv/*
+.venv/*
+.idea
