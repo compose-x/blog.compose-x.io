@@ -121,7 +121,9 @@ Shared resources
 We are going to have shared resources across our 3 accounts which at different points will be accessed by various other IAM entities,
 as the `IAM Structure`_ shows.
 
-`Shared resources CFN templates <https://github.com/lambda-my-aws/composex-blog-resources/tree/master/cicd-pipeline-ecs-composex/cfn-templates>`_
+.. tip::
+
+    To help you with the walk through, you can use the `templates for shared resources`_
 
 ECR Repositories
 ----------------
@@ -245,7 +247,7 @@ Integration stages
 * Puts into artifacts the service, image SHA and other settings into a configuration file.
 * Pulls `Docker composerx`_ which merges the information from previous stage into the common docker compose file.
 
-The application CI pipelines can be found `here <https://github.com/lambda-my-aws/composex-blog-resources/blob/master/cicd-pipeline-ecs-composex/cfn-templates/apps_pipeline.yml>`_
+The application CI pipelines can be found `here <https://github.com/lambda-my-aws/composex-blog-resources/blob/1.0/cicd-pipeline-ecs-composex/cfn-templates/ci_pipeline.yml>`_
 
 To create the pipelines, I simply ran
 
@@ -422,6 +424,7 @@ Because pipelines and the associated resources are not the most friendly things 
 
 
 
+.. _`templates for shared resources`: https://github.com/lambda-my-aws/composex-blog-resources/tree/1.0/cicd-pipeline-ecs-composex/cfn-templates
 .. _`ECS ComposeX`: https://docs.ecs-composex.lambda-my-aws.io
 .. _`ECS ComposeX Repository`: https://github.com/lambda-my-aws/ecs_composex
 .. _`Docker composerX`: https://github.com/lambda-my-aws/docker-composerx
