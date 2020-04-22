@@ -1,0 +1,94 @@
+---
+Description: >-
+  Pipeline to release Lambda layers publicly when new release is created
+
+Metadata:
+  Author: https://github.com/johnpreston
+
+Parameters:
+  BlogDistributionId:
+    Type: String
+
+  BlogBucketName:
+    Type: String
+  BlogRepositoryUrl:
+    Type: String
+#    AllowedPattern: 'https:\/\/[a-z0-9.-]+'
+    Description: Name of VCS repo for the Docker composeX file
+  BranchName:
+    Type: String
+    Default: master
+
+Resources:
+  CodeBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - !Sub 'codebuild.${AWS::URLSuffix}'
+      Policies:
+        - PolicyName: ContentAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: S3ObjectsAccess
+                Action:
+                  - s3:PutObject*
+                  - s3:GetObject*
+                Effect: Allow
+                Resource:
+                  - !Sub 'arn:${AWS::Partition}:s3:::${BlogBucketName}/*'
+              - Sid: S3BucketAccess
+                Action:
+                  - s3:ListBucket
+                Effect: Allow
+                Resource:
+                  - !Sub 'arn:${AWS::Partition}:s3:::${BlogBucketName}'
+              - Sid: CloudFrontAccess
+                Action:
+                  cloudfront:CreateInvalidation
+                Effect: Allow
+                Resource:
+                  !Sub 'arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${BlogDistributionId}'
+
+  BlogBuildAndPublish:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      ServiceRole: !GetAtt 'CodeBuildRole.Arn'
+      Description: !Sub 'Publishes blog on updates'
+      BadgeEnabled: True
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:3.0
+        Type: LINUX_CONTAINER
+        EnvironmentVariables:
+          - Name: BLOG_BUCKET_NAME
+            Type: PLAINTEXT
+            Value: !Ref BlogBucketName
+          - Name: CLOUDFRONT_ID
+            Type: PLAINTEXT
+            Value: !Ref BlogDistributionId
+      Source:
+        Type: GITHUB
+        ReportBuildStatus: True
+        Location: !Ref BlogRepositoryUrl
+        InsecureSsl: False
+      Triggers:
+        Webhook: True
+        FilterGroups:
+          - - Type: EVENT
+              Pattern: PUSH
+              ExcludeMatchedPattern: False
+            - Type: HEAD_REF
+              Pattern: '^refs/heads/master$'
+              ExcludeMatchedPattern: False
