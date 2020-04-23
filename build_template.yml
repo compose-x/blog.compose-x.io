@@ -8,8 +8,9 @@ Metadata:
 Parameters:
   BlogDistributionId:
     Type: String
-
   BlogBucketName:
+    Type: String
+  TmpBlogBucketName:
     Type: String
   BlogRepositoryUrl:
     Type: String
@@ -18,8 +19,37 @@ Parameters:
   BranchName:
     Type: String
     Default: master
+  RepositoryProvider:
+    Type: String
+    AllowedValues:
+      - GitHub
+      - CodeCommit
+    Default: GitHub
+  RepositoryName:
+    Type: String
+
+  BuildLogsRetentionDays:
+    Type: Number
+    AllowedValues: [1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653]
+    Default: 14
+
+Mappings:
+  RepoUrlPrefixes:
+    GitHub:
+      Prefix: https://github.com/
+
+Conditions:
+  UseGitHub:
+    !Equals [ !Ref RepositoryProvider, 'GitHub']
+  UseCodeCommit:
+    !Equals [ !Ref RepositoryProvider, 'CodeCommit']
 
 Resources:
+  BuildLogsGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub 'codebuild/blog/${RepositoryName}'
+      RetentionInDays: !Ref BuildLogsRetentionDays
   CodeBuildRole:
     Type: AWS::IAM::Role
     Properties:
@@ -45,6 +75,7 @@ Resources:
                   - s3:GetObject*
                 Effect: Allow
                 Resource:
+                  - !Sub 'arn:${AWS::Partition}:s3:::${TmpBlogBucketName}/*'
                   - !Sub 'arn:${AWS::Partition}:s3:::${BlogBucketName}/*'
               - Sid: S3BucketAccess
                 Action:
@@ -52,19 +83,76 @@ Resources:
                 Effect: Allow
                 Resource:
                   - !Sub 'arn:${AWS::Partition}:s3:::${BlogBucketName}'
+                  - !Sub 'arn:${AWS::Partition}:s3:::${TmpBlogBucketName}'
               - Sid: CloudFrontAccess
                 Action:
                   cloudfront:CreateInvalidation
                 Effect: Allow
                 Resource:
                   !Sub 'arn:${AWS::Partition}:cloudfront::${AWS::AccountId}:distribution/${BlogDistributionId}'
+              - Sid: CloudWatchLogs
+                Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource:
+                  - !Sub '${BuildLogsGroup.Arn}'
 
-  BlogBuildAndPublish:
+
+  TmpBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      ServiceRole: !GetAtt 'CodeBuildRole.Arn'
+      Description: !Sub 'Publishes blog on updates'
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName: !Ref BuildLogsGroup
+          Status: ENABLED
+          StreamName: prerelease
+      BadgeEnabled: True
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:3.0
+        Type: LINUX_CONTAINER
+        EnvironmentVariables:
+          - Name: BLOG_BUCKET_NAME
+            Type: PLAINTEXT
+            Value: !Ref TmpBlogBucketName
+          - Name: CLOUDFRONT_ID
+            Type: PLAINTEXT
+            Value: !Ref BlogDistributionId
+      Source:
+        Type: GITHUB
+        ReportBuildStatus: True
+        Location: !Ref BlogRepositoryUrl
+        InsecureSsl: False
+        BuildSpec: buildspec_pr.yml
+      Triggers:
+        Webhook: True
+        FilterGroups:
+          - - Type: EVENT
+              Pattern: "PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED, PULL_REQUEST_REOPENED"
+              ExcludeMatchedPattern: False
+            - Type: HEAD_REF
+              Pattern: '^refs/heads/.*$'
+              ExcludeMatchedPattern: False
+            - Type: BASE_REF
+              Pattern: '^refs/heads/master$'
+              ExcludeMatchedPattern: False
+
+  PublishProject:
     Type: AWS::CodeBuild::Project
     Properties:
       ServiceRole: !GetAtt 'CodeBuildRole.Arn'
       Description: !Sub 'Publishes blog on updates'
       BadgeEnabled: True
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName: !Ref BuildLogsGroup
+          Status: ENABLED
+          StreamName: release
       Artifacts:
         Type: NO_ARTIFACTS
       Environment:

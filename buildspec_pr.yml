@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+    commands:
+      - pip --version || curl -s https://bootstrap.pypa.io/get-pip.py | python
+      - pip install -r requirements.txt
+
+  build:
+    commands:
+      - nikola build
+
+  post_build:
+    commands:
+      - cd output && aws s3 sync . s3://${BLOG_BUCKET_NAME}/ --sse AES256 --acl public-read
