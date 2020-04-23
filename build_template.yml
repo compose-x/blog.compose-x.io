@@ -136,17 +136,11 @@ Resources:
               Pattern: "PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED, PULL_REQUEST_REOPENED"
               ExcludeMatchedPattern: False
             - Type: HEAD_REF
-              Pattern: '^refs/heads/master$'
-              ExcludeMatchedPattern: True
+              Pattern: '^refs/heads/.*$'
+              ExcludeMatchedPattern: False
             - Type: BASE_REF
               Pattern: '^refs/heads/master$'
-              ExcludeMatchedPattern: True
-          - - Type: EVENT
-              Pattern: "PUSH"
               ExcludeMatchedPattern: False
-            - Type: HEAD_REF
-              Pattern: '^refs/heads/master$'
-              ExcludeMatchedPattern: True
 
   PublishProject:
     Type: AWS::CodeBuild::Project
