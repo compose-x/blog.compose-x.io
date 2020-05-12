@@ -14,7 +14,7 @@ Parameters:
     Type: String
   BlogRepositoryUrl:
     Type: String
-#    AllowedPattern: 'https:\/\/[a-z0-9.-]+'
+#    AllowedPattern: 'https:\/\/[a-z0-9.-]+'gi
     Description: Name of VCS repo for the Docker composeX file
   BranchName:
     Type: String
