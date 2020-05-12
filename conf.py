@@ -51,6 +51,7 @@ NAVIGATION_LINKS = {
         ("/archive.html", "Archive"),
         ("/categories/", "Tags"),
         ("/rss.xml", "RSS feed"),
+        ("https://docs.ecs-composex.lambda-my-aws.io", "ECS ComposeX Documentation")
     ),
 }
 
@@ -1110,18 +1111,18 @@ MARKDOWN_EXTENSIONS = ['markdown.extensions.fenced_code', 'markdown.extensions.c
 # in the default template (base.tmpl).
 # (translatable)
 
-BODY_END = """
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-86753837-4"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-86753837-4');
-</script>
-
-"""
+# BODY_END = """
+# <!-- Global site tag (gtag.js) - Google Analytics -->
+# <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86753837-4"></script>
+# <script>
+#   window.dataLayer = window.dataLayer || [];
+#   function gtag(){dataLayer.push(arguments);}
+#   gtag('js', new Date());
+#
+#   gtag('config', 'UA-86753837-4');
+# </script>
+#
+# """
 # regular expression.
 # To make it work you need to name parts of your regular expression.
 # The following names will be used to extract metadata:
