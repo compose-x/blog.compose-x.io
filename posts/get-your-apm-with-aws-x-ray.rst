@@ -54,6 +54,28 @@ IAM policy
 
 The IAM policy that allows the X-Ray container / app to communicate with the X-Ray service is added to the IAM Task Role.
 
+.. code-block:: json
+
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Action": [
+                    "xray:PutTraceSegments",
+                    "xray:PutTelemetryRecords",
+                    "xray:GetSamplingRules",
+                    "xray:GetSamplingTargets",
+                    "xray:GetSamplingStatisticSummaries"
+                ],
+                "Resource": [
+                    "arn:${AWS::Partition}:xray:${AWS::Region}:${AWS::AccountId}:group/*",
+                    "arn:${AWS::Partition}:xray:${AWS::Region}:${AWS::AccountId}:sampling-rule/*"
+                ],
+                "Effect": "Allow"
+            }
+        ]
+    }
+
 
 Enable X-Ray for your service
 -----------------------------
@@ -67,7 +89,7 @@ Enable or disable locally for a specific service
        image: link_to_image
        configs:
          x-ray:
-	   enabled: true
+           enabled: true
 
 
 
