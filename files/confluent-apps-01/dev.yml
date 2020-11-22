@@ -39,11 +39,11 @@ services:
 secrets:
   CONNECT_CREDS:
     x-secrets:
-        Name: /kafka/eu-west-1/${CLUSTER_ID}/confluent.connect.cluster
+        Name: /kafka/${CLUSTER_ID}/confluent.connect.cluster
 
   CC_CREDS:
     x-secrets:
-      Name: /kafka/eu-west-1/${CLUSTER_ID}/confluent.controlcenter
+      Name: /kafka/${CLUSTER_ID}/confluent.controlcenter
 
 
 x-elbv2:
