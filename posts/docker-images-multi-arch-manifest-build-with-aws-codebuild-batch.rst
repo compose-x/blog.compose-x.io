@@ -15,7 +15,7 @@ Prelude
 A few months back AWS Codebuild release Batch builds. A very easy way to build multiple things at the same time, with or without dependencies or order between each other.
 Very convenient in order to avoid creating multiple projects, with different settings, simply define these settings directly in the buildspec.yml file.
 
-Last year I read a blog post published by AWS, around docker images build for multiple architecture using AWS CodeBuild and AWS CodePipeline.   
+Last year I read a blog post published by AWS, around docker images build for multiple architecture using AWS CodeBuild and AWS CodePipeline.
 
 So this is a follow-up, in some regards, to that article, to further demonstrate AWS Codebuild capabilities.
 
@@ -46,10 +46,6 @@ Given that some extra commands are necessary for installing python3.8 with Amazo
 
 
 But in essence, they are doing the same thing: update the packages installed, install python, set the new python as default.
-
-.. note::
-
-   I am fully aware that this might break pre-existing packages such as **yum** but I do not intend to have additional packages installed from it.
 
 Batch buildspec definition
 --------------------------
@@ -121,7 +117,12 @@ Here with a batch-graph configuration, we can define dependencies between builds
             - arm64v8_py38
 
 
-Once the build has started, you should see
+.. hint::
+
+    All the buildspec batch specifications are available `here <https://docs.aws.amazon.com/codebuild/latest/userguide/batch-build-buildspec.html>`__.
+
+
+Once the build has finished, if succeeded, you should see
 
 .. image:: ../../images/codebuild-batch-02/batch-outcome.jpg
     :alt: AWS Codebuild - Batch summary
