@@ -12,19 +12,13 @@ Parameters:
     Type: String
   TmpBlogBucketName:
     Type: String
-  BlogRepositoryUrl:
+  CVSProviderUrl:
     Type: String
-#    AllowedPattern: 'https:\/\/[a-z0-9.-]+'gi
     Description: Name of VCS repo for the Docker composeX file
+    Default: https://github.com/
   BranchName:
     Type: String
-    Default: master
-  RepositoryProvider:
-    Type: String
-    AllowedValues:
-      - GitHub
-      - CodeCommit
-    Default: GitHub
+    Default: main
   RepositoryName:
     Type: String
 
@@ -32,17 +26,6 @@ Parameters:
     Type: Number
     AllowedValues: [1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, 3653]
     Default: 14
-
-Mappings:
-  RepoUrlPrefixes:
-    GitHub:
-      Prefix: https://github.com/
-
-Conditions:
-  UseGitHub:
-    !Equals [ !Ref RepositoryProvider, 'GitHub']
-  UseCodeCommit:
-    !Equals [ !Ref RepositoryProvider, 'CodeCommit']
 
 Resources:
   BuildLogsGroup:
@@ -126,7 +109,7 @@ Resources:
       Source:
         Type: GITHUB
         ReportBuildStatus: True
-        Location: !Ref BlogRepositoryUrl
+        Location: !Sub "${CVSProviderUrl}${RepositoryName}"
         InsecureSsl: False
         BuildSpec: buildspec_pr.yml
       Triggers:
@@ -139,7 +122,7 @@ Resources:
               Pattern: '^refs/heads/.*$'
               ExcludeMatchedPattern: False
             - Type: BASE_REF
-              Pattern: '^refs/heads/master$'
+              Pattern: !Sub '^refs/heads/${BranchName}$'
               ExcludeMatchedPattern: False
 
   PublishProject:
@@ -169,7 +152,7 @@ Resources:
       Source:
         Type: GITHUB
         ReportBuildStatus: True
-        Location: !Ref BlogRepositoryUrl
+        Location: !Sub "${CVSProviderUrl}${RepositoryName}"
         InsecureSsl: False
       Triggers:
         Webhook: True
@@ -178,5 +161,5 @@ Resources:
               Pattern: PUSH
               ExcludeMatchedPattern: False
             - Type: HEAD_REF
-              Pattern: '^refs/heads/master$'
+              Pattern: !Sub '^refs/heads/${BranchName}$'
               ExcludeMatchedPattern: False

@@ -14,4 +14,4 @@ phases:
 
   post_build:
     commands:
-      - cd output && aws s3 sync . s3://${BLOG_BUCKET_NAME}/ --sse AES256 --acl public-read
+      - cd output && aws s3 sync . s3://${BLOG_BUCKET_NAME}/ --sse AES256 #--acl public-read
