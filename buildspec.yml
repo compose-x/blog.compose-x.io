@@ -10,6 +10,7 @@ phases:
 
   build:
     commands:
+      - nikola plugin -i gallery_directive
       - nikola build
 
   post_build:
