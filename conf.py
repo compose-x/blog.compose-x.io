@@ -897,7 +897,7 @@ COMMENT_SYSTEM_ID = "ecs-compose-x-blog"
 # http://mysite/foo/bar/index.html => http://mysite/foo/bar/
 # (Uses the INDEX_FILE setting, so if that is, say, default.html,
 # it will instead /foo/default.html => /foo)
-STRIP_INDEXES = True
+STRIP_INDEXES = False
 
 # List of files relative to the server root (!) that will be asked to be excluded
 # from indexing and other robotic spidering. * is supported. Will only be effective
