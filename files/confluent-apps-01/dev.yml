@@ -29,7 +29,7 @@ services:
           cpus: "2.0"
           memory: "4G"
     x-scaling:
-      target_scaling:
+      TargetScaling:
         range: "1-3"
         memory_target: 75
     x-network:

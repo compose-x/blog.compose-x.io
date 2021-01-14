@@ -1,4 +1,4 @@
-.. title: Get your APM with AWS X-Ray
+.. title: Distributed tracing with AWS X-Ray
 .. slug: get-your-apm-with-aws-x-ray
 .. date: 2020-05-19 11:44:18 UTC
 .. tags: ECS ComposeX, AWS CloudFormation, AWS ECS, AWS, AWS X-Ray

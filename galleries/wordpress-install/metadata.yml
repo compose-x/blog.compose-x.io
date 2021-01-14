@@ -1,0 +1,34 @@
+---
+name: 001.png
+caption: Install page - language
+---
+name: 002.png
+caption: Install page - user/password config
+---
+name: 003.png
+caption: post install admin login page
+---
+name: 004.png
+caption: WP admin
+---
+name: 005.png
+caption: Media Lite IAM setting
+---
+name: 006.png
+caption: bucket name from CloudFormation
+---
+name: 007.png
+caption: Access tests from Media Lite
+---
+name: 008.png
+caption: Media Lite final settings
+---
+name: 009.png
+caption: Media file uploaded to S3
+---
+name: 010.png
+caption: Post with the image from S3
+---
+name: 011.png
+caption: CloudFormation stacks and resources
+---
