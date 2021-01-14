@@ -3,11 +3,11 @@
 import time
 
 BLOG_AUTHOR = "https://github.com/johnpreston"  # (translatable)
-BLOG_TITLE = "ECS ComposeX - Blog"  # (translatable)
-SITE_URL = "https://blog.ecs-composex.lambda-my-aws.io/"
-# BASE_URL = "https://blog.ecs-composex.lambda-my-aws.io/"
+BLOG_TITLE = "ECS Compose-X - Blog"  # (translatable)
+SITE_URL = "https://blog.compose-x.io/"
+# BASE_URL = "https://blog.compose-x.io/"
 BLOG_EMAIL = "JohnPreston@users.noreply.github.com"
-BLOG_DESCRIPTION = "Technical blog resources around ECS ComposeX."  # (translatable)
+BLOG_DESCRIPTION = "Technical blog resources around ECS Compose-X."  # (translatable)
 DEFAULT_LANG = "en"
 
 # What other languages do you have?
@@ -51,7 +51,7 @@ NAVIGATION_LINKS = {
         ("/archive.html", "Archive"),
         ("/categories/", "Tags"),
         ("/rss.xml", "RSS feed"),
-        ("https://docs.ecs-composex.lambda-my-aws.io", "ECS ComposeX Documentation")
+        ("https://docs.ecs-compose-x.lambda-my-aws.io", "ECS Compose-X Documentation")
     ),
 }
 
@@ -876,7 +876,7 @@ COMMENT_SYSTEM = "disqus"
 # depends on what comment system you use. The default is
 # "nikolademo" which is a test account for Disqus. More information
 # is in the manual.
-COMMENT_SYSTEM_ID = "ecs-composex-blog"
+COMMENT_SYSTEM_ID = "ecs-compose-x-blog"
 
 # Create index.html for page folders?
 # WARNING: if a page would conflict with the index file (usually
