@@ -51,7 +51,7 @@ NAVIGATION_LINKS = {
         ("/archive.html", "Archive"),
         ("/categories/", "Tags"),
         ("/rss.xml", "RSS feed"),
-        ("https://docs.ecs-compose-x.lambda-my-aws.io", "ECS Compose-X Documentation")
+        ("https://docs.compose-x.io", "ECS ComposeX Documentation")
     ),
 }
 
