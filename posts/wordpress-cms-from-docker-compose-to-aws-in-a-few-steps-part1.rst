@@ -1,7 +1,7 @@
 .. title: Wordpress CMS from docker-compose to AWS in a few steps
 .. slug: wordpress-cms-from-docker-compose-to-aws-in-a-few-steps
 .. date: 2021-01-07 08:30:26 UTC
-.. tags: AWS, CloudFormation, ComposeX, AWS ECS, Wordpress, Bitnami
+.. tags: AWS, CloudFormation, ECS, Wordpress, Bitnami, docker-compose, Compose, Docker
 .. category: ECS ComposeX
 .. link:
 .. description:
@@ -361,6 +361,7 @@ URL is simply not user friendly.
 
 So let's add some security and DNS configuration to point to our Wordpress.
 
+
 Setup a friendly DNS Name and a SSL certificate
 ------------------------------------------------
 
@@ -462,9 +463,11 @@ providing you the ability to change only very little number of things from your 
 
 Here we split into multiple files only to represent multiple environments.
 
+All the files used for this blog article can be found `here <https://github.com/compose-x/wordpress-demo>`__
+
 
 What is next ?
-===============
+--------------
 
 At the time of writing this blog post, Troposphere 2.6.4 is pending release to integrate EFS for ECS. This would be
 the last part of the puzzle to allow some settings to be persistent as they do not live in the database.
@@ -472,7 +475,6 @@ the last part of the puzzle to allow some settings to be persistent as they do n
 Also with the release announcement of AWS Proton, ECS ComposeX will focus on allowing existing Docker-compose users to
 define environments by using docker-compose syntax and help with the adoption of AWS ECS to run and deploy containerized
 applications.
-
 
 .. _ECS ComposeX x-vpc syntax reference: https://docs.ecs-composex.lambda-my-aws.io/syntax/composex/vpc.html
 .. _ECS ComposeX x-elbv2 syntax reference: https://docs.ecs-composex.lambda-my-aws.io/syntax/composex/elbv2.html

@@ -1,7 +1,7 @@
 .. title: Using ComposeX to deploy Confluent Kafka components
 .. slug: using-composex-to-deploy-confluent-kafka-components
 .. date: 2020-11-22 13:10:59 UTC
-.. tags: AWS, ECS, Kafka, Confluent, Docker, Docker-Compose
+.. tags: AWS, ECS, Kafka, Confluent, Docker, docker-compose
 .. category: AWS
 .. link:
 .. description:
