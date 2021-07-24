@@ -23,7 +23,7 @@ the job for them and move on.
 But that is not the only issue at hand: with the adoption of DevOps lifecycles, a lot of repositories simply grow bigger
 by day, as the pipelines build new images everyday.
 
-On ``AWS ECR`_`_, you can set to perform a scan of the image when pushed,
+On `AWS ECR`_, you can set to perform a scan of the image when pushed,
 but, not all OSes are supported yet for scanning, and, most importantly, there is no notification integration built-in
 to let the teams know the outcome of the scan with other services. Which could lead to vulnerabilities to be shipped into
 the newest version of your images. If you rely on humans to actively go and check for the scan result when you provided
